@@ -14,7 +14,6 @@ const HomeTab = () => {
     const [isMorseVisible, setMorseVisible] = useState(false)
     const [usedMorseCodes, setUsedMorseCodes] = useState<string[]>([])
 
-    // بارگذاری امتیاز از localStorage هنگام بارگذاری کامپوننت
     useEffect(() => {
         const savedCoins = localStorage.getItem('coins')
         if (savedCoins) {
@@ -27,25 +26,30 @@ const HomeTab = () => {
         }
     }, [])
 
+    const validMorseCodes = [
+        'TREE', 'OCEAN', 'MOUNTAIN', 'SUN', 'MOON', 'STAR', 'CLOUD', 'FIRE', 'WATER', 'WIND',
+        'STONE', 'SAND', 'RIVER', 'LAKE', 'FOREST', 'FLOWER', 'GRASS', 'LEAF', 'BIRD', 'FISH',
+        'HORSE', 'TIGER', 'LION', 'BEAR', 'WOLF', 'EAGLE', 'SHARK', 'WHALE', 'DOLPHIN', 'SNAKE',
+        'TURTLE', 'BUTTERFLY', 'DRAGONFLY', 'SPIDER', 'ANT', 'BEE', 'CAT', 'DOG', 'MOUSE', 'RABBIT',
+        'ELEPHANT', 'GIRAFFE', 'ZEBRA', 'MONKEY', 'KANGAROO', 'PENGUIN', 'SEAL', 'FOX', 'DEER', 'BAT'
+    ]
+
     const handleMorseSubmit = () => {
-        const correctMorseCode = '.... - ....'
-
-        if (morseInput === correctMorseCode) {
-            if (usedMorseCodes.includes(morseInput)) {
-                alert('This Morse Code has already been used!')
+        if (validMorseCodes.includes(morseInput.toUpperCase())) {
+            if (usedMorseCodes.includes(morseInput.toUpperCase())) {
+                alert('This code has already been used!')
             } else {
-                const newCoins = coins + 1000
+                const newCoins = coins + 3000
                 setCoins(newCoins)
-                setUsedMorseCodes([...usedMorseCodes, morseInput])
+                setUsedMorseCodes([...usedMorseCodes, morseInput.toUpperCase()])
 
-                // ذخیره امتیاز و کدهای استفاده شده در localStorage
                 localStorage.setItem('coins', newCoins.toString())
-                localStorage.setItem('usedMorseCodes', JSON.stringify([...usedMorseCodes, morseInput]))
+                localStorage.setItem('usedMorseCodes', JSON.stringify([...usedMorseCodes, morseInput.toUpperCase()]))
 
-                alert('You gained 1K points!')
+                alert('You gained 3K points!')
             }
         } else {
-            alert('Invalid Morse Code! Check Chanel')
+            alert('Invalid Code! Try again.')
         }
 
         setMorseInput('')
@@ -60,7 +64,6 @@ const HomeTab = () => {
         alert('Coming Soon')
     }
 
-    // نمایش یا مخفی کردن بخش کد مورس
     const handleMorseToggle = () => {
         setMorseVisible(!isMorseVisible)
     }
@@ -88,21 +91,19 @@ const HomeTab = () => {
                 </div>
                 <div
                     className="flex items-center gap-1 text-[#a19f9f] rounded-full px-4 py-1.5 mt-2 cursor-pointer"
-                    onClick={handleMorseToggle} // افزودن اینجا رویداد کلیک برای نمایش کد مورس
+                    onClick={handleMorseToggle}
                 >
-                    <span>MORSE CODE</span>
-                    {/* حذف تصویر sparkles و حذف ستاره */}
+                    <span>SECRET CODE</span>
                     <ArrowRight className="w-6 h-6" />
                 </div>
 
-                {/* نمایش پنل کد مورس هنگام کلیک روی MORSE CODE */}
                 {isMorseVisible && (
                     <div className="mt-4 bg-[#1e1e1e] p-4 rounded-lg z-20">
                         <input
                             type="text"
                             value={morseInput}
                             onChange={(e) => setMorseInput(e.target.value)}
-                            placeholder="Enter Morse Code"
+                            placeholder="Enter Secret Code"
                             className="w-full p-2 rounded bg-[#2d2d2e] text-white mb-2"
                         />
                         <button
@@ -116,7 +117,6 @@ const HomeTab = () => {
             </div>
 
             <div className="space-y-3 px-4 mt-8 mb-8 relative z-10">
-                {/* دکمه Join Community */}
                 <button className="w-full bg-[#ffffff0d] border-[1px] border-[#2d2d2e] rounded-lg px-4 py-4 flex items-center justify-between max-w-[900px] mx-auto">
                     <div className="flex items-center gap-3 font-medium">
                         <Community className="w-8 h-8" />
@@ -125,7 +125,6 @@ const HomeTab = () => {
                     <ArrowRight className="w-6 h-6 text-gray-400" />
                 </button>
 
-                {/* دکمه Check Rewards */}
                 <button className="w-full bg-[#ffffff0d] border-[1px] border-[#2d2d2e] rounded-lg px-4 py-4 flex items-center justify-between max-w-[900px] mx-auto">
                     <div className="flex items-center gap-3 font-medium">
                         <Star className="w-8 h-8" />
