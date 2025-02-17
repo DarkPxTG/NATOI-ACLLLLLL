@@ -5,7 +5,6 @@ import Community from '@/icons/Community'
 import Star from '@/icons/Star'
 import Image from 'next/image'
 import ArrowRight from '@/icons/ArrowRight'
-import { sparkles } from '@/images'
 import { useEffect, useState } from 'react'
 
 const HomeTab = () => {
@@ -13,6 +12,7 @@ const HomeTab = () => {
     const [morseInput, setMorseInput] = useState('')
     const [isMorseVisible, setMorseVisible] = useState(false)
     const [usedMorseCodes, setUsedMorseCodes] = useState<string[]>([])
+    const [account, setAccount] = useState<string | null>(null) // Account state for wallet
 
     useEffect(() => {
         const savedCoins = localStorage.getItem('coins')
@@ -23,6 +23,12 @@ const HomeTab = () => {
         const savedUsedMorseCodes = localStorage.getItem('usedMorseCodes')
         if (savedUsedMorseCodes) {
             setUsedMorseCodes(JSON.parse(savedUsedMorseCodes))
+        }
+
+        // Retrieve wallet address from localStorage if available
+        const savedAccount = localStorage.getItem('account')
+        if (savedAccount) {
+            setAccount(savedAccount)
         }
     }, [])
 
@@ -60,8 +66,26 @@ const HomeTab = () => {
         return value >= 1000 ? `${(value / 1000).toFixed(1)}K` : value
     }
 
-    const handleConnectWallet = () => {
-        alert('Coming Soon')
+    const handleConnectWallet = async () => {
+        // بررسی اینکه آیا Tonkeeper نصب است
+        if (window.tonkeeper) {
+            try {
+                // درخواست دسترسی به حساب کاربر از Tonkeeper
+                const { accounts } = await window.tonkeeper.request({
+                    method: 'ton_requestAccounts',
+                })
+
+                // آدرس حساب کاربر را ذخیره کنید
+                setAccount(accounts[0])
+                localStorage.setItem('account', accounts[0]) // ذخیره آدرس کیف پول در localStorage
+
+                alert('Wallet connected: ' + accounts[0])
+            } catch (error) {
+                alert('Error connecting wallet: ' + error)
+            }
+        } else {
+            alert('Please install Tonkeeper!')
+        }
     }
 
     const handleMorseToggle = () => {
@@ -73,9 +97,11 @@ const HomeTab = () => {
             <button onClick={handleConnectWallet} className="w-full flex justify-center mt-8 relative z-10">
                 <div className="bg-[#007aff] text-white px-3 py-1 rounded-full flex items-center gap-2">
                     <Wallet className="w-5 h-5" />
-                    <span>Connect Wallet</span>
+                    <span>{account ? `Wallet Connected: ${account}` : 'Connect Wallet'}</span>
                 </div>
             </button>
+
+            {account && <div>Connected Account: {account}</div>}
 
             <div className="flex flex-col items-center mt-8 relative z-10">
                 <Image
