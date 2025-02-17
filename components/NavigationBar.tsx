@@ -1,12 +1,3 @@
-// components/NavigationBar.tsx
-
-/**
- * This project was developed by Nikandr Surkov.
- * 
- * YouTube: https://www.youtube.com/@NikandrSurkov
- * GitHub: https://github.com/nikandr-surkov
- */
-
 'use client'
 
 import { useTab } from '@/contexts/TabContext'
@@ -14,6 +5,7 @@ import Earn from '@/icons/Earn'
 import Friends from '@/icons/Friends'
 import Home from '@/icons/Home'
 import Leaderboard from '@/icons/Leaderboard'
+import NFTIcon from '@/icons/Home' // فرض کنید یک آیکون برای NFT داریم
 import { TabType } from '@/utils/types'
 
 const NavigationBar = () => {
@@ -21,7 +13,7 @@ const NavigationBar = () => {
 
     const tabs: { id: TabType; label: string; Icon: React.FC<{ className?: string }> }[] = [
         { id: 'home', label: 'Home', Icon: Home },
-        { id: 'leaderboard', label: 'Leaderboard', Icon: Leaderboard },
+        { id: 'Payment', label: 'Payment', Icon: Leaderboard },
         { id: 'friends', label: 'Friends', Icon: Friends },
         { id: 'earn', label: 'Earn', Icon: Earn },
     ]
@@ -39,12 +31,12 @@ const NavigationBar = () => {
                                 className={`flex flex-col items-center`}
                             >
                                 <tab.Icon
-                                    className={`w-12 h-12 ${isActive ? 'text-[#4c9ce2]' : 'text-[#727272]'
-                                        }`}  // تغییر اندازه آیکون‌ها به w-12 h-12
+                                    className={`w-12 h-12 ${isActive ? 'text-[#4c9ce2]' : 'text-[#727272]'}
+                                        `}
                                 />
                                 <span
-                                    className={`text-sm font-medium ${isActive ? 'text-[#4c9ce2]' : 'text-[#727272]'
-                                        }`} // تغییر text-xs به text-sm
+                                    className={`text-sm font-medium ${isActive ? 'text-[#4c9ce2]' : 'text-[#727272]'}
+                                        `}
                                 >
                                     {tab.label}
                                 </span>
