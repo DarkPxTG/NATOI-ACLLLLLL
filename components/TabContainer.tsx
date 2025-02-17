@@ -5,6 +5,7 @@ import HomeTab from './HomeTab'
 import LeaderboardTab from './LeaderboardTab'
 import FriendsTab from './FriendsTab'
 import TasksTab from './TasksTab'
+import Payment from './PaymentTab'  // کامپوننت Payment را وارد کردم
 
 // اضافه کردن مقادیر initData، userId و startParam
 const TabContainer = () => {
@@ -33,6 +34,10 @@ const TabContainer = () => {
             </div>
             <div className={`${activeTab === 'earn' ? 'is-show' : 'is-hide'}`}>
                 <TasksTab />
+            </div>
+            {/* تب جدید Payment */}
+            <div className={`${activeTab === 'Payment' ? 'is-show' : 'is-hide'}`}>
+                <Payment />
             </div>
         </div>
     )
